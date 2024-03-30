@@ -31,7 +31,7 @@ public class Cliente implements Serializable{
 	@Column(name = "telefone2", length = 15)
 	private String telefone2;
 	
-	@Column(name = "cnpj", length = 14)
+	@Column(name = "cnpj", length = 14, unique = true)
 	private String cnpj;
 	
 	@Column(name = " inscricao_estadual", length = 20)

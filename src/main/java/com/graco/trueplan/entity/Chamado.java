@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.graco.trueplan.enums.PRIORIDADE;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -53,12 +54,7 @@ public class Chamado implements Serializable{
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private Categoria categoria;
 	
-	
-
 }
 
-enum PRIORIDADE {
-	URGENTE, ALTA, MEDIA, BAIXA
-}
 
 
