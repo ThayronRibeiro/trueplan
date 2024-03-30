@@ -2,6 +2,7 @@ package com.graco.trueplan.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class Cargo implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@JsonAlias("descricao")
 	@Column(name = "descricao", nullable = false, length = 30)
 	private String descricao;
 }

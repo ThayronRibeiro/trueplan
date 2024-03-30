@@ -15,32 +15,39 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
 	@PostMapping
-	public ResponseEntity<Usuario> criarNovoUsuario(@RequestBody Usuario usuario){
+	public ResponseEntity<Usuario> criarNovoUsuario(@RequestBody Usuario usuario) {
 		Usuario usuarioNovo = usuarioService.save(usuario);
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioNovo);
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<Usuario>> listarUsuarios (){
+	public ResponseEntity<List<Usuario>> listarUsuarios() {
 		List<Usuario> usuarios = usuarioService.findAll();
 		return ResponseEntity.status(HttpStatus.OK).body(usuarios);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> listarUsuario (@PathVariable Long id) {
+	public ResponseEntity<Usuario> listarUsuario(@PathVariable Long id) {
 		Usuario usuario = usuarioService.findById(id);
-		if(usuario != null) {
+		if (usuario != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(usuario);
-		}else {
+		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletarUsuario (@PathVariable Long id){
-		usuarioService.deleteById(id);
-		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+	public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
+		Usuario usuario = usuarioService.findById(id);
+
+		if (usuario != null) {
+			usuarioService.deleteById(id);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+
 	}
 }

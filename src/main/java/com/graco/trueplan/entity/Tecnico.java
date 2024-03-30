@@ -1,7 +1,9 @@
 package com.graco.trueplan.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.graco.trueplan.enums.STATUS;
 
@@ -26,16 +28,21 @@ public class Tecnico implements Serializable{
 	@Column(name = "nome", nullable = false)
 	private String nome;
 	
-	@JoinColumn(name = "cargo_id", referencedColumnName = "id", nullable = false)
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@JoinColumn(name = "cargo_id", referencedColumnName = "id", nullable = true)
 	private Cargo cargo;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", length = 1)
 	private STATUS status = STATUS.A;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "usuario_id", nullable = false, referencedColumnName = "id")
 	private Usuario usuario;
+	
+	@Column(name = "data_cadastro", nullable = false)
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	private LocalDateTime dataCadastro;
 	
 
 }
