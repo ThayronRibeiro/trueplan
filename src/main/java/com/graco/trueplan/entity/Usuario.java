@@ -23,17 +23,17 @@ public class Usuario implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "nome", length = 100)
+	@Column(name = "nome", length = 100, nullable = false)
 	private String nome;
 	
-	@Column(name = "email", length = 100)
+	@Column(name = "email", length = 100, nullable = false, unique = true)
 	private String email;
 	
 	@Column(name = "senha")
 	private String senha;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-	@Column(name = "data_cadastro")
+	@Column(name = "data_cadastro", nullable = false)
 	private LocalDateTime dataCadastro;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")

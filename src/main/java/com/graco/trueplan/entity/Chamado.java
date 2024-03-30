@@ -2,6 +2,7 @@ package com.graco.trueplan.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonRootName;
@@ -42,17 +43,24 @@ public class Chamado implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	private PRIORIDADE prioridade;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
 	private Cliente cliente;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "tecnico_id", referencedColumnName = "id")
 	private Tecnico tecnico;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "tecnico2_id", referencedColumnName = "id")
 	private Tecnico tecnico2;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private Categoria categoria;
+	
+	@OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL)
+	private List<Comentario> comentarios;
 	
 }
 

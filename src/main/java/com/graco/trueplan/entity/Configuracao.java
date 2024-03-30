@@ -22,18 +22,23 @@ public class Configuracao implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@OneToOne
 	@JoinColumn(name = "empresa_id", referencedColumnName = "id", nullable = false)
 	private Empresa empresa;
 	
+	@OneToOne
 	@JoinColumn(name = "status_padrao_id", referencedColumnName = "id")
 	private StatusChamado statusPadrao;
 	
+	@OneToOne
 	@JoinColumn(name = "status_finalizado_id", referencedColumnName = "id")
 	private StatusChamado statusFinalizado;
 	
+	@OneToOne
 	@JoinColumn(name = "status_ematendimento_id", referencedColumnName = "id")
 	private StatusChamado statusEmAtendimento;
 	
+	@OneToOne
 	@JoinColumn(name = "status_cancelado_id", referencedColumnName = "id")
 	private StatusChamado statusCancelado;
 	

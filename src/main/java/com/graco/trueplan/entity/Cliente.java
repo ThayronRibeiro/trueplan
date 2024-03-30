@@ -4,10 +4,16 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.graco.trueplan.enums.STATUS;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter @Setter @NoArgsConstructor
+@Entity
+@Table(name =  "clientes")
+@JsonRootName(value = "cliente")
 public class Cliente implements Serializable{
 
 	/**
@@ -44,9 +50,11 @@ public class Cliente implements Serializable{
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime dataCadastro;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
 	private Usuario usuario;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
 	private Endereco endereco;
 	

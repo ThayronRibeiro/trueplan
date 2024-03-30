@@ -29,9 +29,11 @@ public class Comentario implements Serializable{
 	@Column(name = "data_hora_comentario")
 	private LocalDateTime dataHoraComentario;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "chamado_id", referencedColumnName = "id", nullable = false)
 	private Chamado chamado;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
 	private Usuario usuario;
 

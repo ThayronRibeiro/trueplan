@@ -22,6 +22,7 @@ public class Historico implements Serializable{
 	@GeneratedValue
 	private Long id;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "chamado_id", referencedColumnName = "id", nullable = false)
 	private Chamado chamado;
 	
@@ -32,9 +33,11 @@ public class Historico implements Serializable{
 	@Column(name = "data_hora_ocorrencia", nullable = false)
 	private LocalDateTime dataHoraOcorrencia;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id", referencedColumnName = "id")
 	private Usuario usuario;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "status", referencedColumnName = "id")
 	private StatusChamado status;
 

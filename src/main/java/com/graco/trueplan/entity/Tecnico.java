@@ -32,6 +32,7 @@ public class Tecnico implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private STATUS status;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id", nullable = false, referencedColumnName = "id")
 	private Usuario usuario;
 	
