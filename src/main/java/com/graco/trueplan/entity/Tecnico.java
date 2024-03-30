@@ -30,7 +30,8 @@ public class Tecnico implements Serializable{
 	private Cargo cargo;
 	
 	@Enumerated(EnumType.STRING)
-	private STATUS status;
+	@Column(name = "status", length = 1)
+	private STATUS status = STATUS.A;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_id", nullable = false, referencedColumnName = "id")

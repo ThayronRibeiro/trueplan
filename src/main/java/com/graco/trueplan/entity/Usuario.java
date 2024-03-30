@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.*;
+import com.graco.trueplan.enums.STATUS;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +33,10 @@ public class Usuario implements Serializable{
 	
 	@Column(name = "senha")
 	private String senha;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", length = 1)
+	private STATUS status = STATUS.A;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@Column(name = "data_cadastro", nullable = false)
