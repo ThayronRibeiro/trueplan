@@ -10,8 +10,8 @@ import com.graco.trueplan.entity.Chamado;
 
 public interface ChamadoRepository extends JpaRepository<Chamado, Long>{
 
-	@Query(value = "select cast(data_abertura as date) from chamados group by cast(data_abertura as date)\r\n"
-			+ "order by cast(data_abertura as date) DESC", nativeQuery = true)
+	@Query(value = "select to_char(cast(data_abertura as date), 'DD-MM-YYYY') as data from chamados group by cast(data_abertura as date)\r\n"
+			+ "			order by cast(data_abertura as date) DESC", nativeQuery = true)
 	public List<String> selectDataAbertura();
 	
 	@Query(value = "select * from chamados where cast(data_abertura as date) = cast(:date as date)", nativeQuery = true)

@@ -7,11 +7,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.graco.trueplan.entity.Chamado;
 import com.graco.trueplan.repository.ChamadoRepository;
 
 @Service
+@Transactional
 public class ChamadoService {
 
 	@Autowired
@@ -27,6 +29,7 @@ public class ChamadoService {
 
 	}
 	
+	@Transactional(readOnly = true)
 	public List<Chamado> findByDataAbertura (Date date) {
 		return chamadoRepository.selectByDataAbertura(date);
 	}

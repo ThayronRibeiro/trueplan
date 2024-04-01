@@ -32,7 +32,7 @@ public class ChamadoController {
 	}
 	
 	@GetMapping("/{date}")
-	public ResponseEntity<List<Chamado>> listarChamadosPorDatas (@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+	public ResponseEntity<List<Chamado>> listarChamadosPorDatas (@PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") Date date) {
 		List<Chamado> chamadoEncontrados = chamadoService.findByDataAbertura(date);
 		return ResponseEntity.status(HttpStatus.OK).body(chamadoEncontrados);
 	}

@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.graco.trueplan.entity.Categoria;
 import com.graco.trueplan.repository.CategoriaRepository;
 
 @Service
+@Transactional
 public class CategoriaService {
 
 	@Autowired
@@ -18,6 +20,7 @@ public class CategoriaService {
 		return categoriaRepository.save(categoria);
 	}
 	
+	@Transactional(readOnly = true, timeout = 5000)
 	public List<Categoria> findAll () {
 		return categoriaRepository.findAll();		
 	}
