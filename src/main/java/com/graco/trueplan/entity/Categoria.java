@@ -1,7 +1,9 @@
 package com.graco.trueplan.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import jakarta.persistence.*;
@@ -21,8 +23,13 @@ public class Categoria implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "descricao", length = 60)
+	
+	@Column(name = "descricao", length = 60, nullable = false)
 	private String descricao;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+	private List<Chamado> chamados;
 	
 	
 

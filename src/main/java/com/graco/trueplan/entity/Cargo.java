@@ -21,6 +21,7 @@ public class Cargo implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonAlias("id")
 	private Long id;
 	
 	@JsonAlias("descricao")

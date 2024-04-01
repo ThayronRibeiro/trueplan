@@ -1,8 +1,9 @@
 package com.graco.trueplan.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.*;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,5 +31,9 @@ public class StatusChamado implements Serializable{
 	
 	@Column(name = "cor_letras", nullable = false)
 	private String corLetras;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
+	private List<Chamado> chamadosStatus;
 
 }

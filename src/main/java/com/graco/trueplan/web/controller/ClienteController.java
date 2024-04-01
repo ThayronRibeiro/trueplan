@@ -11,6 +11,7 @@ import com.graco.trueplan.service.ClienteService;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
+@CrossOrigin("*")
 public class ClienteController {
 
 	@Autowired

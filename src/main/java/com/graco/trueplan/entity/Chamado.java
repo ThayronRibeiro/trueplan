@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.graco.trueplan.enums.PRIORIDADE;
 
@@ -29,7 +30,8 @@ public class Chamado implements Serializable{
 	@Column(name = "descricao_problema")
 	private String descricaoProblema;
 	
-	@JoinColumn(name = "status", referencedColumnName = "id", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
 	private StatusChamado status;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
@@ -43,22 +45,39 @@ public class Chamado implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	private PRIORIDADE prioridade;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_id", referencedColumnName = "id")
+	@ManyToOne
+	@JoinColumn(name = "cliente_id", referencedColumnName = "id", nullable = false)
 	private Cliente cliente;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Column(name = "contato", length = 50, nullable = false)
+	private String contato;
+	
+	@Column(name = "telefone1", nullable = false, length = 15)
+	private String telefone1;
+	
+	@Column(name = "telefone2", nullable = true, length = 15)
+	private String telefone2;
+	
+	@ManyToOne
 	@JoinColumn(name = "tecnico_id", referencedColumnName = "id")
 	private Tecnico tecnico;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "tecnico2_id", referencedColumnName = "id")
 	private Tecnico tecnico2;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
+	@ManyToOne
+	@JoinColumn(name = "usuario_id", referencedColumnName = "id")
+	private Usuario usuario;
+	
+	@ManyToOne
+	@JoinColumn(name = "categoria_id", referencedColumnName = "id", nullable = false)
 	private Categoria categoria;
 	
+	@Column(name = "observacao", length = 300)
+	private String observacao;
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL)
 	private List<Comentario> comentarios;
 	

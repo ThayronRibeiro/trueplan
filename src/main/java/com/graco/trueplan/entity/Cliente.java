@@ -2,8 +2,9 @@ package com.graco.trueplan.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.graco.trueplan.enums.STATUS;
 
@@ -61,6 +62,10 @@ public class Cliente implements Serializable{
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", length = 1)
 	private STATUS status = STATUS.A;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+	private List<Chamado> chamados;
 	
 
 }

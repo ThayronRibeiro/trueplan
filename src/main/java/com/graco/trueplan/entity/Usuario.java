@@ -2,6 +2,7 @@ package com.graco.trueplan.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.*;
@@ -45,6 +46,10 @@ public class Usuario implements Serializable{
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@Column(name = "ultimo_acesso")
 	private LocalDateTime ultimoAcesso;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Chamado> chamadosUsuario;
 
 	@Override
 	public int hashCode() {
