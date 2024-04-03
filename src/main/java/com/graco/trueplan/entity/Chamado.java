@@ -1,6 +1,7 @@
 package com.graco.trueplan.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,6 +42,10 @@ public class Chamado implements Serializable{
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@Column(name = "data_finalizacao")
 	private LocalDateTime dataFinalizacao;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@Column(name = "data_chamado")
+	private LocalDate dataChamado;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private PRIORIDADE prioridade;

@@ -1,6 +1,7 @@
 package com.graco.trueplan.service;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ChamadoService {
 
 	public Chamado save(Chamado chamado) {
 		chamado.setDataAbertura(LocalDateTime.now());
+		chamado.setDataChamado(LocalDate.now());
 		return chamadoRepository.save(chamado);
 	}
 
