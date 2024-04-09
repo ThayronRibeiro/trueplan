@@ -47,6 +47,10 @@ public class Chamado implements Serializable{
 	@Column(name = "data_chamado")
 	private LocalDate dataChamado;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	@Column(name = "data_cancelamento")
+	private LocalDateTime dataCancelamento;
+	
 	@Enumerated(EnumType.ORDINAL)
 	private PRIORIDADE prioridade;
 	
