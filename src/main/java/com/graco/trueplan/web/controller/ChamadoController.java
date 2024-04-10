@@ -36,4 +36,23 @@ public class ChamadoController {
 		List<Chamado> chamadoEncontrados = chamadoService.findByDataAbertura(date);
 		return ResponseEntity.status(HttpStatus.OK).body(chamadoEncontrados);
 	}
+	
+	@GetMapping("/id/{id}")
+	public ResponseEntity<Chamado> encontrarChamado (@PathVariable Long id){
+		Chamado chamadoEncontrado = chamadoService.findById(id);
+		if(chamadoEncontrado != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(chamadoEncontrado);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Chamado> atualizarChamado (@PathVariable Long id, @RequestBody Chamado chamado){
+		Chamado chamadoEncontrado = chamadoService.findById(id);
+		if(chamadoEncontrado != null) {
+			chamadoService.update(chamado);
+			return ResponseEntity.status(HttpStatus.OK).body(chamado);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	}
 }

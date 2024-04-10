@@ -25,6 +25,11 @@ public class ChamadoService {
 		chamado.setDataChamado(LocalDate.now());
 		return chamadoRepository.save(chamado);
 	}
+	
+	public Chamado update(Chamado chamado) {
+		return chamadoRepository.save(chamado);
+	}
+	
 
 	public List<Chamado> findAll() {
 		return chamadoRepository.findAll();
