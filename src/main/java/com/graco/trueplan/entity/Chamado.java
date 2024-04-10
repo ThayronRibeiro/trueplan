@@ -31,7 +31,7 @@ public class Chamado implements Serializable{
 	@Column(name = "descricao_problema")
 	private String descricaoProblema;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "status_id", referencedColumnName = "id", nullable = false)
 	private StatusChamado status;
 	

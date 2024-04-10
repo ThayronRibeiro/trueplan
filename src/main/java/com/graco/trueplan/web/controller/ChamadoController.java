@@ -46,7 +46,7 @@ public class ChamadoController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("/id/{id}")
 	public ResponseEntity<Chamado> atualizarChamado (@PathVariable Long id, @RequestBody Chamado chamado){
 		Chamado chamadoEncontrado = chamadoService.findById(id);
 		if(chamadoEncontrado != null) {
