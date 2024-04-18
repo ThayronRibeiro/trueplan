@@ -14,6 +14,6 @@ public interface ChamadoRepository extends JpaRepository<Chamado, Long>{
 			+ "			order by cast(data_abertura as date) DESC", nativeQuery = true)
 	public List<String> selectDataAbertura();
 	
-	@Query(value = "select * from chamados where cast(data_abertura as date) = cast(:date as date)", nativeQuery = true)
+	@Query(value = "select * from chamados where cast(data_abertura as date) = cast(:date as date) order by id ASC", nativeQuery = true)
 	public List<Chamado> selectByDataAbertura(Date date);
 }
