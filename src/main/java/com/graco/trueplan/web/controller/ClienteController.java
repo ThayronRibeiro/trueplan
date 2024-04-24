@@ -7,7 +7,9 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.graco.trueplan.entity.Cliente;
+import com.graco.trueplan.entity.Usuario;
 import com.graco.trueplan.service.ClienteService;
+import com.graco.trueplan.service.UsuarioService;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
@@ -16,9 +18,14 @@ public class ClienteController {
 
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@PostMapping
 	public ResponseEntity<Cliente> criarNovoCliente(@RequestBody Cliente cliente) {
+		Usuario usuario = usuarioService.findById((long) 1);
+		cliente.setUsuario(usuario);
 		Cliente clienteNovo = clienteService.save(cliente);
 		return ResponseEntity.status(HttpStatus.CREATED).body(clienteNovo);
 	}
