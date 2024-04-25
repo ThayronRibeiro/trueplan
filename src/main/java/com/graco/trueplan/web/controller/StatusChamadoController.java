@@ -11,6 +11,7 @@ import com.graco.trueplan.service.StatusChamadoService;
 
 @RestController
 @RequestMapping("/api/v1/statuschamado")
+@CrossOrigin("*")
 public class StatusChamadoController {
 
 	@Autowired
@@ -37,6 +38,18 @@ public class StatusChamadoController {
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<StatusChamado> atualizarStatusChamado (@PathVariable Long id, @RequestBody StatusChamado statusChamado){
+		StatusChamado statusChamadoEncontrada = statusChamadoService.findById(id);
+		if(statusChamadoEncontrada != null) {
+			statusChamadoService.save(statusChamado);
+			return ResponseEntity.status(HttpStatus.OK).body(statusChamado);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+		
 	}
 	
 	@DeleteMapping("/{id}")
