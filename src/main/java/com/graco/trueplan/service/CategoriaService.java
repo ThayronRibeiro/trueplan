@@ -11,7 +11,7 @@ import com.graco.trueplan.repository.CategoriaRepository;
 
 @Service
 @Transactional
-public class CategoriaService {
+public class CategoriaService extends GenericService<Categoria, Long>{
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;

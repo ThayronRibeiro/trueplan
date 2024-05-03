@@ -18,40 +18,44 @@ public class ChamadoController {
 
 	@Autowired
 	private ChamadoService chamadoService;
-	
+
 	@PostMapping
-	public ResponseEntity<Chamado> criarNovoChamado (@RequestBody Chamado chamado) {
+	public ResponseEntity<Chamado> criarNovoChamado(@RequestBody Chamado chamado) {
 		Chamado chamadoNovo = chamadoService.save(chamado);
 		return ResponseEntity.status(HttpStatus.CREATED).body(chamadoNovo);
-	} 
-	
+
+	}
+
 	@GetMapping("/datas")
-	public ResponseEntity<List<String>> listarDatasAberturas () {
+	public ResponseEntity<List<String>> listarDatasAberturas() {
 		List<String> datasChamados = chamadoService.listDates();
 		return ResponseEntity.status(HttpStatus.OK).body(datasChamados);
 	}
-	
+
 	@GetMapping("/{date}")
-	public ResponseEntity<List<Chamado>> listarChamadosPorDatas (@PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") Date date) {
+	public ResponseEntity<List<Chamado>> listarChamadosPorDatas(
+			@PathVariable @DateTimeFormat(pattern = "dd-MM-yyyy") Date date) {
 		List<Chamado> chamadoEncontrados = chamadoService.findByDataAbertura(date);
 		return ResponseEntity.status(HttpStatus.OK).body(chamadoEncontrados);
 	}
-	
+
 	@GetMapping("/id/{id}")
-	public ResponseEntity<Chamado> encontrarChamado (@PathVariable Long id){
+	public ResponseEntity<Chamado> encontrarChamado(@PathVariable Long id) {
 		Chamado chamadoEncontrado = chamadoService.findById(id);
-		if(chamadoEncontrado != null) {
+		if (chamadoEncontrado != null) {
 			return ResponseEntity.status(HttpStatus.OK).body(chamadoEncontrado);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
-	
+
 	@PutMapping("/id/{id}")
-	public ResponseEntity<Chamado> atualizarChamado (@PathVariable Long id, @RequestBody Chamado chamado){
+	public ResponseEntity<Chamado> atualizarChamado(@PathVariable Long id, @RequestBody Chamado chamado) {
 		Chamado chamadoEncontrado = chamadoService.findById(id);
-		if(chamadoEncontrado != null) {
+		if (chamadoEncontrado != null) {
+
 			chamadoService.update(chamado);
 			return ResponseEntity.status(HttpStatus.OK).body(chamado);
+
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}

@@ -15,7 +15,7 @@ import com.graco.trueplan.repository.ChamadoRepository;
 
 @Service
 @Transactional
-public class ChamadoService {
+public class ChamadoService extends GenericService<Chamado, Long>{
 
 	@Autowired
 	private ChamadoRepository chamadoRepository;
@@ -25,26 +25,14 @@ public class ChamadoService {
 		chamado.setDataChamado(LocalDate.now());
 		return chamadoRepository.save(chamado);
 	}
-	
-	public Chamado update(Chamado chamado) {
-		return chamadoRepository.save(chamado);
-	}
-	
-
-	public List<Chamado> findAll() {
-		return chamadoRepository.findAll();
-
-	}
+		
 	
 	@Transactional(readOnly = true)
 	public List<Chamado> findByDataAbertura (Date date) {
 		return chamadoRepository.selectByDataAbertura(date);
 	}
-	
-	public Chamado findById (Long id) {
-		return chamadoRepository.findById(id).orElse(null);
-	}
-	
+
+	@Transactional(readOnly = true)
 	public List<String> listDates () {
 		return chamadoRepository.selectDataAbertura();		
 	}
