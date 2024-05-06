@@ -25,6 +25,21 @@ public class ChamadoService extends GenericService<Chamado, Long>{
 		chamado.setDataChamado(LocalDate.now());
 		return chamadoRepository.save(chamado);
 	}
+	
+	public Chamado update(Chamado chamado) {
+		
+		Chamado chamadoEstadoAtual = chamadoRepository.findById(chamado.getId()).orElse(null);
+		
+		if(chamadoEstadoAtual != null) {
+			if(!chamadoEstadoAtual.getDataChamado().isBefore(chamado.getDataChamado())) {
+				throw new RuntimeException("Nova data tem que ser maior que a data atual!");
+			}
+		}
+		
+		return chamadoRepository.save(chamado);
+		
+		
+	}
 		
 	
 	@Transactional(readOnly = true)
