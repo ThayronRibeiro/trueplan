@@ -28,13 +28,13 @@ public class ChamadoService extends GenericService<Chamado, Long>{
 	
 	public Chamado update(Chamado chamado) {
 		
-		Chamado chamadoEstadoAtual = chamadoRepository.findById(chamado.getId()).orElse(null);
+		//Chamado chamadoEstadoAtual = chamadoRepository.findById(chamado.getId()).orElse(null);
 		
-		if(chamadoEstadoAtual != null) {
+		/*if(chamadoEstadoAtual != null) {
 			if(!chamadoEstadoAtual.getDataChamado().isBefore(chamado.getDataChamado())) {
 				throw new RuntimeException("Nova data tem que ser maior que a data atual!");
 			}
-		}
+		}*/
 		
 		return chamadoRepository.save(chamado);
 		
