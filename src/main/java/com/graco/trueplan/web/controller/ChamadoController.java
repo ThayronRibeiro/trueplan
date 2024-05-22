@@ -1,6 +1,6 @@
 package com.graco.trueplan.web.controller;
 
-import java.time.LocalDate;
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,14 +62,20 @@ public class ChamadoController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 	
-	@PutMapping("/reagendar/{date}")
-	public ResponseEntity<Void> reagendarTodos (@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, @RequestBody List<Chamado> chamados){
-		chamados.stream().forEach(chamadoNovo -> chamadoNovo.setDataChamado(date));
+	@PutMapping("/reagendarChamado")
+	public ResponseEntity<Chamado> reagendar (@RequestBody Chamado chamado){
 		
-		for (Chamado chamado : chamados) {
-			chamadoService.update(chamado);
-		}
+		chamadoService.reagendar(chamado);
+
+		return ResponseEntity.status(HttpStatus.OK).body(chamado);
+	}
+	
+	@PutMapping("/reagendarChamados")
+	public ResponseEntity<List<Chamado>> reagendarTodos (@RequestBody List<Chamado> chamados){
 		
-		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		List<Chamado> chamadosNovos = chamados.stream().map(chamado -> chamadoService.reagendar(chamado)).collect(Collectors.toList());
+		
+
+		return ResponseEntity.status(HttpStatus.OK).body(chamadosNovos);
 	}
 }

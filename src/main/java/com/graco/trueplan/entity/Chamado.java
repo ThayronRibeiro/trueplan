@@ -54,7 +54,7 @@ public class Chamado implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	private PRIORIDADE prioridade;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "cliente_id", referencedColumnName = "id", nullable = false)
 	private Cliente cliente;
 	
