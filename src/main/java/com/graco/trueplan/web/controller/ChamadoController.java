@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.graco.trueplan.entity.Chamado;
 import com.graco.trueplan.service.ChamadoService;
+import com.graco.trueplan.web.dto.ChamadoDTO;
 
 @RestController
 @RequestMapping("/api/v1/chamados")
@@ -40,6 +41,16 @@ public class ChamadoController {
 		List<Chamado> chamadoEncontrados = chamadoService.findByDataAbertura(date);
 		return ResponseEntity.status(HttpStatus.OK).body(chamadoEncontrados);
 	}
+	
+	@GetMapping
+    public List<ChamadoDTO> buscarChamados(@RequestParam("dataChamado") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataChamado) {
+        return chamadoService.listarChamadoByDataChamado(dataChamado);
+    }
+	
+	@GetMapping("/teste")
+    public List<ChamadoDTO> allChamados() {
+        return chamadoService.listarChamados();
+    }
 
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Chamado> encontrarChamado(@PathVariable Long id) {
