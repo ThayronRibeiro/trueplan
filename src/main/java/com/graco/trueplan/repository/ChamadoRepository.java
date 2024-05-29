@@ -36,7 +36,9 @@ public interface ChamadoRepository extends GenericRepository<Chamado, Long> {
 	public List<String> selectDataAbertura();
 
 	@Query(value = "select * from chamados where cast(data_chamado as date) = cast(:date as date) order by id ASC", nativeQuery = true)
-	public List<Chamado> selectByDataAbertura(Date date);
+	public List<Chamado> selectByDataChamado(Date date);
+	
+	
 
 	public default List<ChamadoDTO> selectChamadoByDataChamado(Date dataChamado) {
 		String sql = "SELECT c.id AS id, cli.nome_fantasia AS nomeCliente,c.contato AS contato,"
@@ -107,7 +109,7 @@ class ChamadoRowMapper implements RowMapper<ChamadoDTO> {
 		dto.setPrioridade(PRIORIDADE.valueOf(rs.getString("prioridade")));
 		dto.setNomeTecnico(rs.getString("nome_tecnico"));
 		dto.setNomeTecnico2(rs.getString("nome_tecnico2"));
-		dto.setUsuarioCriacao(rs.getString("usuario_criacao"));
+		dto.setNomeUsuario(rs.getString("usuario_criacao"));
 		return dto;
 	}
 

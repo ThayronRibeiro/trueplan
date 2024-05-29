@@ -2,7 +2,6 @@ package com.graco.trueplan.web.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -37,7 +36,7 @@ public class ChamadoDTO {
 	private PRIORIDADE prioridade;
 	private String nomeTecnico;
 	private String nomeTecnico2;
-	private String usuarioCriacao;
+	private String nomeUsuario;
 	
 	
 }

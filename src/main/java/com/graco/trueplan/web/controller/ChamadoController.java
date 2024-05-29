@@ -1,10 +1,13 @@
 package com.graco.trueplan.web.controller;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
@@ -21,6 +24,9 @@ public class ChamadoController {
 
 	@Autowired
 	private ChamadoService chamadoService;
+	
+	@Autowired
+	ModelMapper modelMapper;
 
 	@PostMapping
 	public ResponseEntity<Chamado> criarNovoChamado(@RequestBody Chamado chamado) {
@@ -43,15 +49,18 @@ public class ChamadoController {
 	}
 	
 	@GetMapping
-    public List<ChamadoDTO> buscarChamados(@RequestParam("dataChamado") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataChamado) {
-        return chamadoService.listarChamadoByDataChamado(dataChamado);
+    public ResponseEntity<List<ChamadoDTO>> buscarChamados(@RequestParam("dataChamado") @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> dataChamado) {
+		List<ChamadoDTO> chamadosDTO = new ArrayList<ChamadoDTO>();
+		Date date = dataChamado.get();
+		
+		if(dataChamado.isPresent()) {
+			chamadosDTO = chamadoService.listarChamadosDTOByData(date);
+		} else {
+			chamadosDTO = chamadoService.listarChamadosDTO(); 	
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(chamadosDTO);
     }
-	
-	@GetMapping("/teste")
-    public List<ChamadoDTO> allChamados() {
-        return chamadoService.listarChamados();
-    }
-
+		
 	@GetMapping("/id/{id}")
 	public ResponseEntity<Chamado> encontrarChamado(@PathVariable Long id) {
 		Chamado chamadoEncontrado = chamadoService.findById(id);
