@@ -49,7 +49,7 @@ public class ChamadoController {
 	}
 	
 	@GetMapping
-    public ResponseEntity<List<ChamadoDTO>> buscarChamados(@RequestParam("dataChamado") @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> dataChamado) {
+    public ResponseEntity<List<ChamadoDTO>> buscarChamados(@RequestParam("dataChamado") @DateTimeFormat(pattern = "dd-MM-yyyy") Optional<Date> dataChamado) {
 		List<ChamadoDTO> chamadosDTO = new ArrayList<ChamadoDTO>();
 		Date date = dataChamado.get();
 		
