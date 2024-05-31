@@ -24,6 +24,7 @@ import com.graco.trueplan.entity.StatusChamado;
 import com.graco.trueplan.enums.PRIORIDADE;
 import com.graco.trueplan.exception.DataMenorIgualReagendamentoException;
 import com.graco.trueplan.repository.ChamadoRepository;
+import com.graco.trueplan.repository.StatusChamadoRepository;
 import com.graco.trueplan.web.dto.ChamadoDTO;
 
 @Service
@@ -32,6 +33,9 @@ public class ChamadoService extends GenericService<Chamado, Long> {
 
 	@Autowired
 	private ChamadoRepository chamadoRepository;
+	
+	@Autowired
+	private StatusChamadoRepository statusChamadoRepository; 
 
 	@Autowired
 	ModelMapper modelMapper;
@@ -44,6 +48,8 @@ public class ChamadoService extends GenericService<Chamado, Long> {
 	}
 
 	public Chamado save(Chamado chamado) {
+		StatusChamado status = statusChamadoRepository.findById(chamado.getStatus().getId()).orElseThrow();
+		chamado.setStatus(status);
 		chamado.setDataAbertura(LocalDateTime.now());
 		chamado.setDataChamado(LocalDate.now());
 		return chamadoRepository.save(chamado);
