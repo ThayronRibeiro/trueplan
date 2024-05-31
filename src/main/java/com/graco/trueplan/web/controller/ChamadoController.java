@@ -32,7 +32,6 @@ public class ChamadoController {
 	public ResponseEntity<Chamado> criarNovoChamado(@RequestBody Chamado chamado) {
 		Chamado chamadoNovo = chamadoService.save(chamado);
 		return ResponseEntity.status(HttpStatus.CREATED).body(chamadoNovo);
-
 	}
 
 	@GetMapping("/datas")
