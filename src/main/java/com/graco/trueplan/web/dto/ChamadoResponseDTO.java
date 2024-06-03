@@ -6,26 +6,23 @@ import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.graco.trueplan.entity.Categoria;
+import com.graco.trueplan.entity.StatusChamado;
+import com.graco.trueplan.entity.Tecnico;
 import com.graco.trueplan.enums.PRIORIDADE;
 
 import lombok.*;
 
-
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class ChamadoDTO {
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
+public class ChamadoResponseDTO {
 
 	private Long id;
-	private Long clienteId;
-	private Long usuarioId;
-	private Long tecnicoId;
-	private Long tecnico2Id;
-	private Long categoriaId;
-	private Long statusChamadoId;
+	private String descricaoProblema;
 	private String contato;
 	private String telefone1;
 	private String telefone2;
-	private String descricaoProblema;
 	private String observacao;
+	private StatusChamado statusChamado;
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataChamado;
@@ -36,5 +33,10 @@ public class ChamadoDTO {
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime dataCancelamento; 
 	private PRIORIDADE prioridade;
+	private ClienteDTO cliente;
+	private UsuarioDTO usuario;
+	private Categoria categoria;
+	private Tecnico tecnico;
+	private Tecnico tecnico2;
 	
 }

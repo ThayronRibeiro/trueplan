@@ -19,12 +19,18 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.graco.trueplan.entity.Categoria;
 import com.graco.trueplan.entity.Chamado;
+import com.graco.trueplan.entity.Cliente;
 import com.graco.trueplan.entity.StatusChamado;
+import com.graco.trueplan.entity.Usuario;
 import com.graco.trueplan.enums.PRIORIDADE;
 import com.graco.trueplan.exception.DataMenorIgualReagendamentoException;
+import com.graco.trueplan.repository.CategoriaRepository;
 import com.graco.trueplan.repository.ChamadoRepository;
+import com.graco.trueplan.repository.ClienteRepository;
 import com.graco.trueplan.repository.StatusChamadoRepository;
+import com.graco.trueplan.repository.UsuarioRepository;
 import com.graco.trueplan.web.dto.ChamadoDTO;
 
 @Service
@@ -36,6 +42,12 @@ public class ChamadoService extends GenericService<Chamado, Long> {
 	
 	@Autowired
 	private StatusChamadoRepository statusChamadoRepository; 
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 
 	@Autowired
 	ModelMapper modelMapper;
@@ -47,9 +59,24 @@ public class ChamadoService extends GenericService<Chamado, Long> {
 		return new JdbcTemplate(dataSource);
 	}
 
-	public Chamado save(Chamado chamado) {
-		StatusChamado status = statusChamadoRepository.findById(chamado.getStatus().getId()).orElseThrow();
+	public Chamado save(ChamadoDTO chamadoDTO) {
+		
+		StatusChamado status = statusChamadoRepository.findById(chamadoDTO.getStatusChamadoId()).orElseThrow(()-> new RuntimeException("Status não encontrado!"));
+		Cliente cliente = clienteRepository.findById(chamadoDTO.getClienteId()).orElseThrow(()-> new RuntimeException("Cliente não encontrado!"));
+		Usuario usuario = usuarioRepository.findById(chamadoDTO.getUsuarioId()).orElseThrow(()-> new RuntimeException("Usuário não encontrado!"));
+		Categoria categoria = categoriaRepository.findById(chamadoDTO.getCategoriaId()).orElseThrow(()-> new RuntimeException("Categoria não encontrada!"));
+		
+		
+		Chamado chamado = modelMapper.map(chamadoDTO, Chamado.class);
+		//Chamado chamado = new Chamado();
 		chamado.setStatus(status);
+		chamado.setCliente(cliente);
+		chamado.setUsuario(usuario);
+		chamado.setCategoria(categoria);
+		/*chamado.setContato(chamadoDTO.getContato());
+		chamado.setTelefone1(chamadoDTO.getTelefone1());
+		chamado.setPrioridade(chamadoDTO.getPrioridade());
+		*/
 		chamado.setDataAbertura(LocalDateTime.now());
 		chamado.setDataChamado(LocalDate.now());
 		return chamadoRepository.save(chamado);
@@ -100,18 +127,15 @@ public class ChamadoService extends GenericService<Chamado, Long> {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String dataFormatada = dateFormat.format(dataChamado);
 
-		String sql = "SELECT c.id AS id, cli.nome_fantasia AS nome_cliente, c.contato AS contato, "
-				+ "c.telefone1 AS telefone1, c.telefone2 AS telefone2, c.descricao_problema AS descricao_problema, "
-				+ "c.observacao AS observacao, cat.descricao AS descricao_categoria, status.id AS status_id, "
-				+ "status.descricao AS status_descricao, status.cor_background AS cor_background, "
-				+ "status.cor_letras AS cor_letras,c.data_chamado AS data_chamado,c.data_abertura AS data_abertura, "
-				+ "c.data_finalizacao AS data_finalizacao,c.data_cancelamento AS data_cancelamento, "
-				+ "c.prioridade AS prioridade,tec.nome AS nome_tecnico,tec2.nome AS nome_tecnico2,usu.nome "
-				+ "FROM chamados c JOIN clientes cli ON c.cliente_id = cli.id "
-				+ "JOIN categorias cat ON c.categoria_id = cat.id JOIN status_chamado status ON c.status_id = status.id "
-				+ "JOIN usuarios usu ON c.usuario_id = usu.id LEFT JOIN tecnicos tec ON c.tecnico_id = tec.id "
-				+ "LEFT JOIN tecnicos tec2 ON c.tecnico2_id = tec2.id WHERE c.data_chamado = " + "'" + dataFormatada
-				+ "'";
+		String sql = "SELECT " + "c.id AS id, " + "c.cliente_id AS cliente_id, " + "c.contato AS contato, "
+				+ "c.telefone1 AS telefone1, " + "c.telefone2 AS telefone2, "
+				+ "c.descricao_problema AS descricaoProblema, " + "c.observacao AS observacao, "
+				+ "c.categoria_id AS categoria_id, " + "c.status_id AS status_id, "
+				+ "c.data_chamado AS dataChamado, "	+ "c.data_abertura AS dataAbertura, " + "c.data_finalizacao AS dataFinalizacao, "
+				+ "c.data_cancelamento AS dataCancelamento, " + "c.prioridade AS prioridade, "
+				+ "c.tecnico_id AS tecnico_id, " + "c.tecnico2_id AS tecnico2_id, " + "c.usuario_id AS usuario_id "
+				+ "FROM chamados c "
+				+ "WHERE c.data_chamado = " + "'" + dataFormatada + "'";
 
 		return jdbcTemplate().query(sql, new ChamadoRowMapper());
 	}
@@ -175,20 +199,16 @@ class ChamadoRowMapper implements RowMapper<ChamadoDTO> {
 	public ChamadoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ChamadoDTO dto = new ChamadoDTO();
 		dto.setId(rs.getLong("id"));
-		dto.setNomeCliente(rs.getString("nome_cliente"));
+		dto.setClienteId(rs.getLong("cliente_id"));
 		dto.setContato(rs.getString("contato"));
 		dto.setTelefone1(rs.getString("telefone1"));
 		dto.setTelefone2(rs.getString("telefone2"));
 		dto.setDescricaoProblema(rs.getString("descricao_problema"));
 		dto.setObservacao(rs.getString("observacao"));
-		dto.setDescricaoCategoria(rs.getString("descricao_categoria"));
+		dto.setCategoriaId(rs.getLong("categoria_id"));
 
-		StatusChamado status = new StatusChamado();
-		status.setId(rs.getLong("status_id"));
-		status.setDescricao(rs.getString("status_descricao"));
-		status.setCorBackground(rs.getString("cor_background"));
-		status.setCorLetras(rs.getString("cor_letras"));
-		dto.setStatus(status);
+
+		dto.setStatusChamadoId(rs.getLong("status_id"));
 
 		dto.setDataChamado(rs.getDate("data_chamado").toLocalDate());
 		dto.setDataAbertura(rs.getTimestamp("data_abertura").toLocalDateTime());
@@ -198,10 +218,10 @@ class ChamadoRowMapper implements RowMapper<ChamadoDTO> {
 		dto.setDataCancelamento(
 				rs.getTimestamp("data_cancelamento") != null ? rs.getTimestamp("data_cancelamento").toLocalDateTime()
 						: null);
-		dto.setPrioridade(PRIORIDADE.fromValue(rs.getInt("prioridade")));
-		dto.setNomeTecnico(rs.getString("nome_tecnico"));
-		dto.setNomeTecnico2(rs.getString("nome_tecnico2"));
-		dto.setNomeUsuario(rs.getString("nome"));
+		dto.setPrioridade(PRIORIDADE.valueOf(rs.getString("prioridade")));
+		dto.setTecnicoId(rs.getLong("tecnico_id"));
+		dto.setTecnico2Id(rs.getLong("tecnico2_id"));
+		dto.setUsuarioId(rs.getLong("usuario_id"));
 		return dto;
 	}
 

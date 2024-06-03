@@ -29,7 +29,7 @@ public class ChamadoController {
 	ModelMapper modelMapper;
 
 	@PostMapping
-	public ResponseEntity<Chamado> criarNovoChamado(@RequestBody Chamado chamado) {
+	public ResponseEntity<Chamado> criarNovoChamado(@RequestBody ChamadoDTO chamado) {
 		Chamado chamadoNovo = chamadoService.save(chamado);
 		return ResponseEntity.status(HttpStatus.CREATED).body(chamadoNovo);
 	}
@@ -50,9 +50,9 @@ public class ChamadoController {
 	@GetMapping
     public ResponseEntity<List<ChamadoDTO>> buscarChamados(@RequestParam("dataChamado") @DateTimeFormat(pattern = "dd-MM-yyyy") Optional<Date> dataChamado) {
 		List<ChamadoDTO> chamadosDTO = new ArrayList<ChamadoDTO>();
-		Date date = dataChamado.get();
-		
+			
 		if(dataChamado.isPresent()) {
+			Date date = dataChamado.get();
 			chamadosDTO = chamadoService.listarChamadosDTOByData(date);
 		} else {
 			chamadosDTO = chamadoService.listarChamadosDTO(); 	
