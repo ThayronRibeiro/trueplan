@@ -22,8 +22,8 @@ public class Comentario implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "texto_comentario")
-	private String textoComentario;
+	@Column(name = "comentario")
+	private String comentario;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	@Column(name = "data_hora_comentario")
