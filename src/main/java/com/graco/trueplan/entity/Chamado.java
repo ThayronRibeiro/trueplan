@@ -90,6 +90,13 @@ public class Chamado implements Serializable{
 	@OneToMany(mappedBy = "chamado", cascade = CascadeType.ALL)
 	private List<Comentario> comentarios;
 	
+	
+	@PrePersist
+	private void prePersist() {
+		this.dataChamado = LocalDate.now();
+		this.dataAbertura = LocalDateTime.now();
+	}
+	
 }
 
 

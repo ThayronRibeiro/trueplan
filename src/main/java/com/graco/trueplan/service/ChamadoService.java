@@ -68,17 +68,11 @@ public class ChamadoService extends GenericService<Chamado, Long> {
 		
 		
 		Chamado chamado = modelMapper.map(chamadoDTO, Chamado.class);
-		//Chamado chamado = new Chamado();
 		chamado.setStatus(status);
 		chamado.setCliente(cliente);
 		chamado.setUsuario(usuario);
 		chamado.setCategoria(categoria);
-		/*chamado.setContato(chamadoDTO.getContato());
-		chamado.setTelefone1(chamadoDTO.getTelefone1());
-		chamado.setPrioridade(chamadoDTO.getPrioridade());
-		*/
-		chamado.setDataAbertura(LocalDateTime.now());
-		chamado.setDataChamado(LocalDate.now());
+
 		return chamadoRepository.save(chamado);
 	}
 
