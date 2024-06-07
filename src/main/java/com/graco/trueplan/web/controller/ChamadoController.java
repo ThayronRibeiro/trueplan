@@ -70,12 +70,12 @@ public class ChamadoController {
 	}
 
 	@PutMapping("/id/{id}")
-	public ResponseEntity<ChamadoDTO> atualizarChamado(@PathVariable Long id, @RequestBody ChamadoDTO chamado) {
+	public ResponseEntity<Chamado> atualizarChamado(@PathVariable Long id, @RequestBody ChamadoDTO chamado) {
 		Chamado chamadoEncontrado = chamadoService.findById(id);
 		if (chamadoEncontrado != null) {
 
-			chamadoService.update(modelMapper.map(chamado, Chamado.class));
-			return ResponseEntity.status(HttpStatus.OK).body(chamado);
+			Chamado chamadoAtualizado = chamadoService.update(modelMapper.map(chamado, Chamado.class));
+			return ResponseEntity.status(HttpStatus.OK).body(chamadoAtualizado);
 
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
