@@ -9,7 +9,7 @@ import com.graco.trueplan.entity.Tecnico;
 import com.graco.trueplan.repository.TecnicoRepository;
 
 @Service
-public class TecnicoService extends GenericService<Tecnico, Long>{
+public class TecnicoService extends AbstractService<Tecnico, Tecnico, Long>{
 
 	@Autowired
 	private TecnicoRepository tecnicoRepository;

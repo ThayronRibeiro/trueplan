@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.graco.trueplan.exception.ChamadoNaoEncontradoException;
 import com.graco.trueplan.exception.DataMenorIgualReagendamentoException;
+import com.graco.trueplan.exception.EntidadeNaoEncontradaException;
 import com.graco.trueplan.utils.ApiError;
 
 
@@ -22,8 +22,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
 	}
 	
-	@ExceptionHandler(ChamadoNaoEncontradoException.class)
-	private ResponseEntity<ApiError> chamadoNaoEncontradoException(ChamadoNaoEncontradoException exception) {
+	@ExceptionHandler(EntidadeNaoEncontradaException.class)
+	private ResponseEntity<ApiError> chamadoNaoEncontradoException(EntidadeNaoEncontradaException exception) {
 		ApiError error = new ApiError();	
 		error.setStatus(HttpStatus.NOT_FOUND.value());
 		error.setMessage(exception.getMessage());

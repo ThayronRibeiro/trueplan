@@ -33,7 +33,7 @@ import com.graco.trueplan.web.dto.ChamadoDTO;
 
 @Service
 @Transactional
-public class ChamadoService extends GenericService<Chamado, Long> {
+public class ChamadoService extends AbstractService<Chamado, Chamado, Long> {
 
 	@Autowired
 	private ChamadoRepository chamadoRepository;
@@ -91,6 +91,11 @@ public class ChamadoService extends GenericService<Chamado, Long> {
 		}
 
 		return chamadoRepository.save(chamado);
+	}
+	
+	public ChamadoDTO listChamadoDTO(Long id) {
+		Chamado chamado = this.findById(id);				
+		return modelMapper.map(chamado, ChamadoDTO.class);
 	}
 
 	public List<ChamadoDTO> listarChamadosDTO() {

@@ -61,12 +61,9 @@ public class ChamadoController {
     }
 		
 	@GetMapping("/id/{id}")
-	public ResponseEntity<Chamado> encontrarChamado(@PathVariable Long id) {
-		Chamado chamadoEncontrado = chamadoService.findById(id);
-		if (chamadoEncontrado != null) {
-			return ResponseEntity.status(HttpStatus.OK).body(chamadoEncontrado);
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	public ResponseEntity<ChamadoDTO> encontrarChamado(@PathVariable Long id) {
+		ChamadoDTO chamadoEncontrado = chamadoService.listChamadoDTO(id);
+		return ResponseEntity.status(HttpStatus.OK).body(chamadoEncontrado);
 	}
 
 	@PutMapping("/id/{id}")

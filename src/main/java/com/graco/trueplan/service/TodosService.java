@@ -5,6 +5,6 @@ import org.springframework.stereotype.Service;
 import com.graco.trueplan.entity.Todos;
 
 @Service
-public class TodosService extends GenericService<Todos, Long>{
+public class TodosService extends AbstractService<Todos, Todos, Long>{
 
 }
